@@ -1,6 +1,4 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
-import path from 'path'
-import fs from 'fs'
 
 import { contactForm as contactFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
@@ -12,7 +10,7 @@ import { image4 } from './image-4'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
-import { post4 } from './post-4'
+// import { post4 } from './post-4'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -236,7 +234,7 @@ export const seed = async ({
     payload.logger.info(`— Seeding posts...`)
 
     // Create posts without related posts first
-    const [post1Doc, post2Doc, post3Doc, post4Doc] = await Promise.all([
+    const [post1Doc, post2Doc, post3Doc /*, post4Doc */] = await Promise.all([
       payload.create({
         collection: 'posts',
         data: JSON.parse(
@@ -264,15 +262,15 @@ export const seed = async ({
             .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
         )
       }),
-      payload.create({
-        collection: 'posts',
-        data: JSON.parse(
-          JSON.stringify({ ...post4, categories: [technologyCategory.id] })
-            .replace(/"\{\{IMAGE_1\}\}"/g, String(image4ID))
-            .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
-            .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
-        )
-      })
+      // payload.create({
+      //   collection: 'posts',
+      //   data: JSON.parse(
+      //     JSON.stringify({ ...post4, categories: [technologyCategory.id] })
+      //       .replace(/"\{\{IMAGE_1\}\}"/g, String(image4ID))
+      //       .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
+      //       .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
+      //   )
+      // })
     ])
 
     // Clear any existing search documents
@@ -292,7 +290,7 @@ export const seed = async ({
       id: post1Doc.id,
       collection: 'posts',
       data: {
-        relatedPosts: [post2Doc.id, post3Doc.id, post4Doc.id]
+        relatedPosts: [post2Doc.id, post3Doc.id /*, post4Doc.id*/]
       }
     })
 
@@ -300,7 +298,7 @@ export const seed = async ({
       id: post2Doc.id,
       collection: 'posts',
       data: {
-        relatedPosts: [post1Doc.id, post3Doc.id, post4Doc.id]
+        relatedPosts: [post1Doc.id, post3Doc.id /*, post4Doc.id*/]
       }
     })
 
@@ -308,17 +306,17 @@ export const seed = async ({
       id: post3Doc.id,
       collection: 'posts',
       data: {
-        relatedPosts: [post1Doc.id, post2Doc.id, post4Doc.id]
+        relatedPosts: [post1Doc.id, post2Doc.id/*, post4Doc.id*/]
       }
     })
 
-    await payload.update({
-      id: post4Doc.id,
-      collection: 'posts',
-      data: {
-        relatedPosts: [post1Doc.id, post2Doc.id, post3Doc.id]
-      }
-    })
+    // await payload.update({
+    //   id: post4Doc.id,
+    //   collection: 'posts',
+    //   data: {
+    //     relatedPosts: [post1Doc.id, post2Doc.id, post3Doc.id]
+    //   }
+    // })
 
     // Create home page
     payload.logger.info(`— Seeding home page...`)
