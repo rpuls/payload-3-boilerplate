@@ -1,6 +1,8 @@
 import { CollectionConfig } from 'payload'
 import { authenticatedOrPublished } from '../access/authenticatedOrPublished'
 import { authenticated } from '../access/authenticated'
+import { revalidatePath } from 'next/cache'
+import type { Post } from '../payload-types'
 
 export const Comments: CollectionConfig = {
   slug: 'comments',
@@ -13,6 +15,30 @@ export const Comments: CollectionConfig = {
     create: () => true,
     update: authenticated,
     delete: authenticated
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, req, operation, previousDoc }) => {
+        // Revalidate the post page when a comment is approved or updated
+        if (doc.post && (operation === 'update' || operation === 'create')) {
+          try {
+            const post = await req.payload.findByID({
+              collection: 'posts',
+              id: typeof doc.post === 'object' ? doc.post.id : doc.post,
+            })
+            
+            if (post?.slug) {
+              const path = `/posts/${post.slug}`
+              req.payload.logger.info(`Revalidating post at path: ${path}`)
+              revalidatePath(path)
+            }
+          } catch (error) {
+            req.payload.logger.error('Error revalidating post after comment change:', error)
+          }
+        }
+        return doc
+      }
+    ]
   },
   fields: [
     {
