@@ -1,25 +1,26 @@
 # syntax=docker/dockerfile:1
 
-FROM node:20-alpine AS base
+FROM node:20-slim AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-# Add build dependencies for native modules like sharp
-RUN apk add --no-cache libc6-compat python3 make g++ vips-dev
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Install dependencies and rebuild sharp for Alpine
+# Install dependencies
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile
-RUN pnpm rebuild sharp
 
 # Rebuild the source code only when needed
 FROM base AS builder
-# Need vips for sharp at build time
-RUN apk add --no-cache libc6-compat vips-dev
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Install pnpm
@@ -43,8 +44,9 @@ RUN pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner
-# Need vips for sharp at runtime
-RUN apk add --no-cache vips
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 ENV NODE_ENV=production
