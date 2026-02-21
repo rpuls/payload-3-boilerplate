@@ -21,7 +21,7 @@ export async function generateStaticParams() {
     collection: 'posts',
     draft: false,
     limit: 1000,
-    overrideAccess: false,
+    overrideAccess: true,
     select: {
       slug: true,
     },
@@ -92,7 +92,7 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
     collection: 'posts',
     draft,
     limit: 1,
-    overrideAccess: draft,
+    overrideAccess: true,
     pagination: false,
     where: {
       slug: {
