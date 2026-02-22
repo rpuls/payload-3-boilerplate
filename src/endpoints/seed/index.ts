@@ -64,8 +64,8 @@ export const seed = async ({
     // this is because while `yarn seed` drops the database
     // the custom `/api/seed` endpoint does not
 
-    payload.logger.info(`— Clearing media...`)
-    payload.logger.info(`— Clearing collections and globals...`)
+    payload.logger.info(`- Clearing media...`)
+    payload.logger.info(`- Clearing collections and globals...`)
 
     // First, clear the search collection to avoid ID conflicts
     await payload.delete({
@@ -99,7 +99,7 @@ export const seed = async ({
       })
     }
 
-    payload.logger.info(`— Seeding demo author and user...`)
+    payload.logger.info(`- Seeding demo author and user...`)
 
     await payload.delete({
       collection: 'users',
@@ -121,7 +121,7 @@ export const seed = async ({
 
     let demoAuthorID: number | string = demoAuthor.id
 
-    payload.logger.info(`— Seeding media...`)
+    payload.logger.info(`- Seeding media...`)
 
     // Load all files first
     const [image1File, image2File, image3File, hero1File, vendureFile] = await Promise.all([
@@ -142,7 +142,7 @@ export const seed = async ({
       )
     ])
 
-    payload.logger.info(`— Creating media documents...`)
+    payload.logger.info(`- Creating media documents...`)
 
     // Create media documents
     const [image1Doc, image2Doc, image3Doc, imageHomeDoc, image4Doc] = await Promise.all([
@@ -189,7 +189,7 @@ export const seed = async ({
     }
 
     // Create categories
-    payload.logger.info(`— Seeding categories...`)
+    payload.logger.info(`- Seeding categories...`)
     const [technologyCategory, newsCategory, financeCategory] = await Promise.all([
       payload.create({
         collection: 'categories',
@@ -233,7 +233,7 @@ export const seed = async ({
     ])
 
     // Create posts
-    payload.logger.info(`— Seeding posts...`)
+    payload.logger.info(`- Seeding posts...`)
 
     // Create posts without related posts first.
     // Keep this sequential to avoid race conditions in search sync hooks.
@@ -288,7 +288,7 @@ export const seed = async ({
     })
     // Update related posts in order.
     // This is non-critical seed data, so do not fail the entire seed if it errors.
-    payload.logger.info(`� Updating related posts...`)
+    payload.logger.info(`- Updating related posts...`)
     try {
       await payload.update({
         id: post1Doc.id,
@@ -326,7 +326,7 @@ export const seed = async ({
       payload.logger.error(`Related posts seed step failed, continuing: ${message}`)
     }
     // Create home page
-    payload.logger.info(`— Seeding home page...`)
+    payload.logger.info(`- Seeding home page...`)
 
     await payload.create({
       collection: 'pages',
@@ -338,7 +338,7 @@ export const seed = async ({
     })
 
     // Create contact form
-    payload.logger.info(`— Seeding contact form...`)
+    payload.logger.info(`- Seeding contact form...`)
 
     const contactForm = await payload.create({
       collection: 'forms',
@@ -352,7 +352,7 @@ export const seed = async ({
     }
 
     // Create contact page
-    payload.logger.info(`— Seeding contact page...`)
+    payload.logger.info(`- Seeding contact page...`)
 
     const contactPage = await payload.create({
       collection: 'pages',
@@ -362,7 +362,7 @@ export const seed = async ({
     })
 
     // Update header
-    payload.logger.info(`— Seeding header...`)
+    payload.logger.info(`- Seeding header...`)
 
     await payload.updateGlobal({
       slug: 'header',
@@ -390,7 +390,7 @@ export const seed = async ({
     })
 
     // Update footer
-    payload.logger.info(`— Seeding footer...`)
+    payload.logger.info(`- Seeding footer...`)
 
     await payload.updateGlobal({
       slug: 'footer',
@@ -423,7 +423,7 @@ export const seed = async ({
       }
     })
 
-    payload.logger.info('✨ Database seeded successfully!')
+    payload.logger.info(' Database seeded successfully!')
   } catch (error) {
     payload.logger.error('Error seeding database:')
     payload.logger.error(error)
