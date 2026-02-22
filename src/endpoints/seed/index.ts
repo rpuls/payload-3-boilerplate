@@ -235,45 +235,47 @@ export const seed = async ({
     // Create posts
     payload.logger.info(`— Seeding posts...`)
 
-    // Create posts without related posts first
-    const [post1Doc, post2Doc, post3Doc, post4Doc] = await Promise.all([
-      payload.create({
-        collection: 'posts',
-        data: JSON.parse(
-          JSON.stringify({ ...post1, categories: [technologyCategory.id] })
-            .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
-            .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
-            .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
-        )
-      }),
-      payload.create({
-        collection: 'posts',
-        data: JSON.parse(
-          JSON.stringify({ ...post2, categories: [newsCategory.id] })
-            .replace(/"\{\{IMAGE_1\}\}"/g, String(image2ID))
-            .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
-            .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
-        )
-      }),
-      payload.create({
-        collection: 'posts',
-        data: JSON.parse(
-          JSON.stringify({ ...post3, categories: [financeCategory.id] })
-            .replace(/"\{\{IMAGE_1\}\}"/g, String(image3ID))
-            .replace(/"\{\{IMAGE_2\}\}"/g, String(image1ID))
-            .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
-        )
-      }),
-      payload.create({
-        collection: 'posts',
-        data: JSON.parse(
-          JSON.stringify({ ...post4, categories: [technologyCategory.id] })
-            .replace(/"\{\{IMAGE_1\}\}"/g, String(image4ID))
-            .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
-            .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
-        )
-      })
-    ])
+    // Create posts without related posts first.
+    // Keep this sequential to avoid race conditions in search sync hooks.
+    const post1Doc = await payload.create({
+      collection: 'posts',
+      data: JSON.parse(
+        JSON.stringify({ ...post1, categories: [technologyCategory.id] })
+          .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
+          .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
+          .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
+      )
+    })
+
+    const post2Doc = await payload.create({
+      collection: 'posts',
+      data: JSON.parse(
+        JSON.stringify({ ...post2, categories: [newsCategory.id] })
+          .replace(/"\{\{IMAGE_1\}\}"/g, String(image2ID))
+          .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
+          .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
+      )
+    })
+
+    const post3Doc = await payload.create({
+      collection: 'posts',
+      data: JSON.parse(
+        JSON.stringify({ ...post3, categories: [financeCategory.id] })
+          .replace(/"\{\{IMAGE_1\}\}"/g, String(image3ID))
+          .replace(/"\{\{IMAGE_2\}\}"/g, String(image1ID))
+          .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
+      )
+    })
+
+    const post4Doc = await payload.create({
+      collection: 'posts',
+      data: JSON.parse(
+        JSON.stringify({ ...post4, categories: [technologyCategory.id] })
+          .replace(/"\{\{IMAGE_1\}\}"/g, String(image4ID))
+          .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
+          .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID))
+      )
+    })
 
     // Clear any existing search documents
     await payload.delete({
@@ -284,42 +286,45 @@ export const seed = async ({
         }
       }
     })
+    // Update related posts in order.
+    // This is non-critical seed data, so do not fail the entire seed if it errors.
+    payload.logger.info(`� Updating related posts...`)
+    try {
+      await payload.update({
+        id: post1Doc.id,
+        collection: 'posts',
+        data: {
+          relatedPosts: [post2Doc.id, post3Doc.id, post4Doc.id]
+        }
+      })
 
-    // Update related posts in order
-    payload.logger.info(`— Updating related posts...`)
+      await payload.update({
+        id: post2Doc.id,
+        collection: 'posts',
+        data: {
+          relatedPosts: [post1Doc.id, post3Doc.id, post4Doc.id]
+        }
+      })
 
-    await payload.update({
-      id: post1Doc.id,
-      collection: 'posts',
-      data: {
-        relatedPosts: [post2Doc.id, post3Doc.id, post4Doc.id]
-      }
-    })
+      await payload.update({
+        id: post3Doc.id,
+        collection: 'posts',
+        data: {
+          relatedPosts: [post1Doc.id, post2Doc.id, post4Doc.id]
+        }
+      })
 
-    await payload.update({
-      id: post2Doc.id,
-      collection: 'posts',
-      data: {
-        relatedPosts: [post1Doc.id, post3Doc.id, post4Doc.id]
-      }
-    })
-
-    await payload.update({
-      id: post3Doc.id,
-      collection: 'posts',
-      data: {
-        relatedPosts: [post1Doc.id, post2Doc.id, post4Doc.id]
-      }
-    })
-
-    await payload.update({
-      id: post4Doc.id,
-      collection: 'posts',
-      data: {
-        relatedPosts: [post1Doc.id, post2Doc.id, post3Doc.id]
-      }
-    })
-
+      await payload.update({
+        id: post4Doc.id,
+        collection: 'posts',
+        data: {
+          relatedPosts: [post1Doc.id, post2Doc.id, post3Doc.id]
+        }
+      })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown related posts seed error'
+      payload.logger.error(`Related posts seed step failed, continuing: ${message}`)
+    }
     // Create home page
     payload.logger.info(`— Seeding home page...`)
 
@@ -425,3 +430,4 @@ export const seed = async ({
     throw error
   }
 }
+
