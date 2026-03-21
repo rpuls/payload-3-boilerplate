@@ -78,8 +78,11 @@ export const seed = async ({
   payload: Payload
   req: PayloadRequest
 }): Promise<void> => {
+  const previousDisableSearchSync = process.env.DISABLE_SEARCH_SYNC
+
   try {
     const useLocalSeedMedia = process.env.USE_LOCAL_SEED_MEDIA === 'true'
+    process.env.DISABLE_SEARCH_SYNC = 'true'
     req.context.disableSearchSync = true
     payload.logger.info('Seeding database...')
 
@@ -455,13 +458,19 @@ export const seed = async ({
       }
     })
 
-    req.context.disableSearchSync = false
     payload.logger.info(' Database seeded successfully!')
   } catch (error) {
-    req.context.disableSearchSync = false
     payload.logger.error('Error seeding database:')
     payload.logger.error(error)
     throw error
+  } finally {
+    req.context.disableSearchSync = false
+
+    if (previousDisableSearchSync === undefined) {
+      delete process.env.DISABLE_SEARCH_SYNC
+    } else {
+      process.env.DISABLE_SEARCH_SYNC = previousDisableSearchSync
+    }
   }
 }
 
