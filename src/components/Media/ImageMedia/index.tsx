@@ -47,7 +47,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    src = `${getClientSideURL()}${url}`
+    // Keep local Payload media on a relative path so Next treats it as same-origin.
+    src = url?.startsWith('/') ? url : `${getClientSideURL()}${url}`
   }
 
   const loading = loadingFromProps || 'lazy'

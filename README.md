@@ -44,11 +44,9 @@ This boilerplate is a pre-configured, ready-to-deploy solution for Payload CMS a
 
 ## Version Info
 
-- **Payload CMS**: `3.77.0` (resolved in `pnpm-lock.yaml`)
-- **Next.js**: `15.4.11`
+- **Payload CMS**: `3.80.0`
+- **Next.js**: `16.2.1`
 - **Node.js**: `^18.20.2 || >=20.9.0`
-
-Note: `package.json` uses `latest` for Payload packages. Actual installed versions are pinned by `pnpm-lock.yaml`.
 
 ## Preconfigured Features & Integrations
 

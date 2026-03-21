@@ -1,4 +1,5 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import path from 'path'
 
 import redirects from './redirects.js'
 
@@ -19,6 +20,9 @@ const nextConfig = {
         }
       }),
     ],
+  },
+  sassOptions: {
+    includePaths: [path.join(process.cwd(), 'node_modules')],
   },
   reactStrictMode: true,
   redirects,
