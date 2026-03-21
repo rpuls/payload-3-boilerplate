@@ -15,13 +15,28 @@ export const payloadSecret = process.env.PAYLOAD_SECRET ?? 'playwright-secret'
 export const adminEmail = 'admin@example.com'
 export const adminPassword = 'ChangeMe123!'
 export const commentText = 'Playwright public comment awaiting approval.'
-export const seededPostTitles = [
-  'Exploring the Power of Payload CMS',
-  'Getting Started with Payload CMS Website Template',
-  'Medusa.js 2.0: A Game-Changer for E-commerce',
-  'Vendure: A Powerful Open-Source E-commerce Solution',
-]
-export const targetPostTitle = seededPostTitles[0]
+export const seededPosts = [
+  {
+    title: 'Exploring the Power of Payload CMS',
+    slug: 'exploring-payload-cms',
+  },
+  {
+    title: 'Getting Started with Payload CMS Website Template',
+    slug: 'getting-started-payload-cms',
+  },
+  {
+    title: 'Medusa.js 2.0: A Game-Changer for E-commerce',
+    slug: 'medusajs-2-0-game-changer',
+  },
+  {
+    title: 'Vendure: A Powerful Open-Source E-commerce Solution',
+    slug: 'vendure-open-source-ecommerce',
+  },
+] as const
+
+export const seededPostTitles = seededPosts.map((post) => post.title)
+export const targetPost = seededPosts[0]
+export const targetPostTitle = targetPost.title
 
 export const dockerComposeEnv = {
   POSTGRES_DB: postgresDb,

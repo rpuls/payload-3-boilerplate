@@ -4,8 +4,8 @@ import {
   adminEmail,
   adminPassword,
   commentText,
-  seededPostTitles,
-  targetPostTitle,
+  seededPosts,
+  targetPost,
 } from './env'
 
 const manualReviewMode = process.env.E2E_MANUAL_REVIEW === 'true'
@@ -158,6 +158,21 @@ async function getApprovedCommentCount(page: Page) {
   return body.docs.length as number
 }
 
+async function verifySeededPosts(page: Page) {
+  await page.goto('/posts')
+  await expect(page.getByRole('heading', { name: 'Posts' })).toBeVisible()
+
+  for (const post of seededPosts) {
+    await expect(page.getByRole('link', { name: post.title })).toBeVisible()
+
+    const response = await page.goto(`/posts/${post.slug}`)
+
+    expect(response?.ok(), `Expected seeded post page /posts/${post.slug} to respond successfully`).toBeTruthy()
+    await expect(page.getByRole('heading', { name: post.title })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Comments' })).toBeVisible()
+  }
+}
+
 test('supports onboarding, seeding, and comment moderation', async ({ browser, page }) => {
   await createFirstAdmin(page)
   await seedDatabase(page)
@@ -165,14 +180,8 @@ test('supports onboarding, seeding, and comment moderation', async ({ browser, p
   const publicContext = await browser.newContext()
   const publicPage = await publicContext.newPage()
 
-  await publicPage.goto('/posts')
-  await expect(publicPage.getByRole('heading', { name: 'Posts' })).toBeVisible()
-
-  for (const title of seededPostTitles) {
-    await expect(publicPage.getByRole('link', { name: title })).toBeVisible()
-  }
-
-  await publicPage.getByRole('link', { name: targetPostTitle }).click()
+  await verifySeededPosts(publicPage)
+  await publicPage.goto(`/posts/${targetPost.slug}`)
   await expect(publicPage.getByRole('heading', { name: 'Comments' })).toBeVisible()
 
   await fillFirst(publicPage.getByLabel(/^name$/i), 'Playwright Visitor')
