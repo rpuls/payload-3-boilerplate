@@ -44,8 +44,8 @@ This boilerplate is a pre-configured, ready-to-deploy solution for Payload CMS a
 
 ## Version Info
 
-- **Payload CMS**: `3.80.0`
-- **Next.js**: `16.2.1`
+- **Payload CMS**: `3.82.1`
+- **Next.js**: `16.2.3`
 - **Node.js**: `^18.20.2 || >=20.9.0`
 
 ## Preconfigured Features & Integrations
