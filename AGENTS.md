@@ -16,7 +16,8 @@ This file defines the working rules for automated agents in this repository.
 - Only use `pnpm.overrides` as a last resort when there is no reasonable upstream or direct-dependency fix.
 - If an override is truly unavoidable, keep it narrowly scoped, document why, and remove it as soon as upstream allows.
 - When updating Payload packages, keep the Payload package family aligned on the same version.
-- When updating `payload`, also update the documented version in `README.md` in the `Version Info` section during the same change.
+- When changing dependency versions, check `README.md` for documented version numbers and update every affected entry in the `Version Info` section during the same change.
+- When updating `payload`, `@payloadcms/*`, `next`, React, Node engine requirements, package manager versions, or test tooling, verify the README still matches `package.json`.
 - Do not leave misleading version notes in the README. Documentation must match the actual dependency state.
 
 ## Branching And Release Rules
@@ -53,7 +54,7 @@ This file defines the working rules for automated agents in this repository.
 ## Documentation Rules
 
 - Update `README.md` when setup, test commands, version info, or important workflow expectations change.
-- When changing Payload versions, update the README version entry immediately.
+- When changing dependency versions, update all affected README version entries immediately, not only Payload.
 - Keep command examples aligned with the actual recommended workflow, especially `pnpm` usage and e2e commands.
 
 ## Change Safety Rules
