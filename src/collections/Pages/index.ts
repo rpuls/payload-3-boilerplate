@@ -37,6 +37,7 @@ export const Pages: CollectionConfig<'pages'> = {
   defaultPopulate: {
     title: true,
     slug: true,
+    path: true,
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
@@ -65,6 +66,64 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'pageType',
+      type: 'select',
+      defaultValue: 'landing',
+      required: true,
+      options: [
+        { label: 'Ana sayfa', value: 'home' },
+        { label: 'Hizmet', value: 'service' },
+        { label: 'Sektör', value: 'industry' },
+        { label: 'Teknoloji', value: 'technology' },
+        { label: 'Lokasyon', value: 'location' },
+        { label: 'Fiyatlandırma', value: 'pricing' },
+        { label: 'Araç', value: 'tool' },
+        { label: 'Genel landing page', value: 'landing' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'path',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'İç içe sayfalar için tam adres. Örnek: /blog/marka-stratejisi',
+      },
+    },
+    {
+      name: 'seoStrategy',
+      type: 'group',
+      label: 'SEO İçerik Stratejisi',
+      fields: [
+        { name: 'primaryKeyword', type: 'text', label: 'Birincil anahtar kelime' },
+        { name: 'searchIntent', type: 'select', options: ['informational', 'commercial', 'transactional', 'local'] },
+        {
+          name: 'schemaType',
+          type: 'select',
+          defaultValue: 'WebPage',
+          options: ['WebPage', 'Service', 'Article', 'FAQPage', 'LocalBusiness', 'SoftwareApplication'],
+        },
+        {
+          name: 'relatedPages',
+          type: 'relationship',
+          relationTo: 'pages',
+          hasMany: true,
+          admin: { description: 'İç bağlantı kümesinde gösterilecek ilgili sayfalar.' },
+        },
+        {
+          name: 'faqs',
+          type: 'array',
+          label: 'Sık sorulan sorular',
+          fields: [
+            { name: 'question', type: 'text', required: true },
+            { name: 'answer', type: 'textarea', required: true },
+          ],
+        },
+      ],
     },
     {
       type: 'tabs',

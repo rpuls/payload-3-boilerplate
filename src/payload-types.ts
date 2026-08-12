@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    'case-studies': CaseStudy;
+    testimonials: Testimonial;
     media: Media;
     categories: Category;
     users: User;
@@ -86,6 +88,8 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -146,6 +150,27 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
+  pageType: 'home' | 'service' | 'industry' | 'technology' | 'location' | 'pricing' | 'tool' | 'landing';
+  /**
+   * İç içe sayfalar için tam adres. Örnek: /blog/marka-stratejisi
+   */
+  path?: string | null;
+  seoStrategy?: {
+    primaryKeyword?: string | null;
+    searchIntent?: ('informational' | 'commercial' | 'transactional' | 'local') | null;
+    schemaType?: ('WebPage' | 'Service' | 'Article' | 'FAQPage' | 'LocalBusiness' | 'SoftwareApplication') | null;
+    /**
+     * İç bağlantı kümesinde gösterilecek ilgili sayfalar.
+     */
+    relatedPages?: (number | Page)[] | null;
+    faqs?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     richText?: {
@@ -715,6 +740,72 @@ export interface LogoCloudGridBlock {
   blockType: 'logoCloudGrid';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies".
+ */
+export interface CaseStudy {
+  id: number;
+  title: string;
+  client: string;
+  sector: string;
+  summary: string;
+  cover: number | Media;
+  services?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  metrics?:
+    | {
+        value: string;
+        label: string;
+        isDemo?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  story: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  featured?: boolean | null;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  person: string;
+  role?: string | null;
+  company: string;
+  quote: string;
+  portrait?: (number | null) | Media;
+  /**
+   * Gerçek müşteri onayı olmadan bu işareti kaldırmayın.
+   */
+  isDemo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Comments submitted by visitors on blog posts
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -842,6 +933,14 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'case-studies';
+        value: number | CaseStudy;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -921,6 +1020,23 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  pageType?: T;
+  path?: T;
+  seoStrategy?:
+    | T
+    | {
+        primaryKeyword?: T;
+        searchIntent?: T;
+        schemaType?: T;
+        relatedPages?: T;
+        faqs?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
   hero?:
     | T
     | {
@@ -1097,6 +1213,53 @@ export interface PostsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies_select".
+ */
+export interface CaseStudiesSelect<T extends boolean = true> {
+  title?: T;
+  client?: T;
+  sector?: T;
+  summary?: T;
+  cover?: T;
+  services?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        isDemo?: T;
+        id?: T;
+      };
+  story?: T;
+  featured?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  person?: T;
+  role?: T;
+  company?: T;
+  quote?: T;
+  portrait?: T;
+  isDemo?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
