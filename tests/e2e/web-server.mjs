@@ -81,6 +81,7 @@ async function main() {
 
   run('corepack', ['pnpm', 'deps:native'])
   run('corepack', ['pnpm', 'build'])
+  run('corepack', ['pnpm', 'exec', 'payload', 'migrate'])
 
   const app = isWindows
     ? spawn('cmd.exe', ['/c', 'corepack', 'pnpm', 'start'], {

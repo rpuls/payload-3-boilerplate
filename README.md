@@ -44,8 +44,8 @@ This boilerplate is a pre-configured, ready-to-deploy solution for Payload CMS a
 
 ## Version Info
 
-- **Payload CMS**: `3.88.0`
-- **Next.js**: `16.3.1`
+- **Payload CMS**: `3.89.0`
+- **Next.js**: `16.3.5`
 - **Node.js**: `^18.20.2 || >=20.9.0`
 
 ## Preconfigured Features & Integrations
@@ -65,6 +65,8 @@ This boilerplate is a pre-configured, ready-to-deploy solution for Payload CMS a
 Use one-click deploy template:
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/L8TUlT?referralCode=-Yg50p)
+
+The Railway template applies committed Payload migrations with `pnpm exec payload migrate` as a pre-deploy command. Migrations intentionally do not run during `pnpm build`, because Railway private networking is available only after the image build.
 
 ### Local Setup
 
