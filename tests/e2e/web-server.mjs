@@ -81,7 +81,6 @@ async function main() {
 
   run('corepack', ['pnpm', 'deps:native'])
   run('corepack', ['pnpm', 'build'])
-
   const app = isWindows
     ? spawn('cmd.exe', ['/c', 'corepack', 'pnpm', 'start'], {
         cwd: repoRoot,
