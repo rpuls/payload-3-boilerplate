@@ -66,7 +66,7 @@ Use one-click deploy template:
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/L8TUlT?referralCode=-Yg50p)
 
-The Railway template applies committed Payload migrations with `pnpm exec payload migrate` as a pre-deploy command. Migrations intentionally do not run during `pnpm build`, because Railway private networking is available only after the image build.
+`pnpm start` applies committed Payload migrations before starting Next.js. This keeps both new Railway deployments and existing template installations updated without requiring a Railway setting change. Migrations intentionally do not run during `pnpm build`, because Railway private networking is unavailable during the image build.
 
 ### Local Setup
 
