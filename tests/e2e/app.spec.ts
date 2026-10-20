@@ -1,12 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
 
-import {
-  adminEmail,
-  adminPassword,
-  commentText,
-  seededPosts,
-  targetPost,
-} from './env'
+import { adminEmail, adminPassword, commentText, seededPosts, targetPost } from './env'
 
 const manualReviewMode = process.env.E2E_MANUAL_REVIEW === 'true'
 
@@ -166,7 +160,10 @@ async function verifySeededPosts(page: Page) {
 
     const response = await page.goto(`/posts/${post.slug}`)
 
-    expect(response?.ok(), `Expected seeded post page /posts/${post.slug} to respond successfully`).toBeTruthy()
+    expect(
+      response?.ok(),
+      `Expected seeded post page /posts/${post.slug} to respond successfully`,
+    ).toBeTruthy()
     await expect(page.getByRole('heading', { name: post.title })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Comments' })).toBeVisible()
   }
@@ -174,6 +171,13 @@ async function verifySeededPosts(page: Page) {
 
 test('supports onboarding, seeding, and comment moderation', async ({ browser, page }) => {
   await createFirstAdmin(page)
+
+  const payload4Notice = page.getByRole('region', { name: /payload 4 is out/i })
+  await expect(payload4Notice).toBeVisible()
+  await expect(
+    payload4Notice.getByRole('link', { name: /deploy the payload 4 template/i }),
+  ).toHaveAttribute('href', /railway\.com\/deploy\/payload-cms-4-website-beta/)
+
   await seedDatabase(page)
 
   const publicContext = await browser.newContext()

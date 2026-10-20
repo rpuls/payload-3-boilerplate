@@ -5,6 +5,9 @@ import { fileURLToPath } from 'node:url'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+// A separate Compose project keeps e2e runs away from the development database volume.
+const composeProject = 'payload3-e2e'
+
 const postgresPort = Number(process.env.E2E_POSTGRES_PORT ?? '54343')
 const postgresDb = process.env.E2E_POSTGRES_DB ?? 'payload_e2e'
 const postgresUser = process.env.E2E_POSTGRES_USER ?? 'postgres'
@@ -68,15 +71,15 @@ async function waitForPort(port, host = '127.0.0.1', timeoutMs = 60000) {
 
 function stopPostgres() {
   try {
-    run('docker', ['compose', 'down', '--volumes', '--remove-orphans'])
+    run('docker', ['compose', '-p', composeProject, 'down', '--volumes', '--remove-orphans'])
   } catch {
     // Best-effort cleanup for local test runs.
   }
 }
 
 async function main() {
-  run('docker', ['compose', 'down', '--volumes', '--remove-orphans'])
-  run('docker', ['compose', 'up', '-d', 'postgres'])
+  run('docker', ['compose', '-p', composeProject, 'down', '--volumes', '--remove-orphans'])
+  run('docker', ['compose', '-p', composeProject, 'up', '-d', 'postgres'])
   await waitForPort(postgresPort)
 
   run('corepack', ['pnpm', 'deps:native'])

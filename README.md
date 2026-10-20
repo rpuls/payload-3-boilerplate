@@ -1,3 +1,25 @@
+<h1 align="center">Payload 4 is out!</h1>
+
+<p align="center">
+  <strong>Starting a new project? Use the <a href="https://github.com/rpuls/payload-4-boilerplate">Payload 4 template</a> instead.</strong><br>
+  Same one-click Railway setup, built on Payload 4.
+</p>
+
+<p align="center">
+  <a href="https://railway.com/deploy/payload-cms-4-website-beta?referralCode=-Yg50p">
+    <img src="https://railway.com/button.svg" alt="Deploy the Payload 4 template on Railway" />
+  </a>
+</p>
+
+> [!IMPORTANT]
+> **This Payload 3 template will stop being maintained once Payload 4 matures.** It still gets updates for now, but new projects are better off starting on Payload 4, so they do not need a migration later.
+>
+> The [Payload 4 template](https://github.com/rpuls/payload-4-boilerplate) comes with the redesigned Payload 4 admin, a modular dashboard, MCP access for AI agents, nested categories, tags, scheduled publishing and uploads stored in a Railway Bucket.
+>
+> Already building on Payload 3? No rush: your project keeps working. Read the [Payload 3 to 4 migration guide](https://payloadcms.com/docs/beta/migration-guide/v4) when you are ready to move.
+
+---
+
 <p align="center">
   <a href="https://funkyton.com/payload-cms/">
     <picture>
@@ -44,9 +66,16 @@ This boilerplate is a pre-configured, ready-to-deploy solution for Payload CMS a
 
 ## Version Info
 
-- **Payload CMS**: `3.89.0`
-- **Next.js**: `16.3.5`
-- **Node.js**: `^18.20.2 || >=20.9.0`
+- **Payload CMS**: `3.91.0` (all `@payloadcms/*` packages on the same version)
+- **Next.js**: `16.4.2`
+- **React**: `19.3.1`
+- **Node.js**: `>=20.18.1`
+- **pnpm**: `10.26.0`
+- **TypeScript**: `5.9.3`
+- **Playwright**: `1.64.1`
+- **PostgreSQL**: 16 for local development and e2e (Docker), Railway's PostgreSQL template in production
+
+Looking for Payload 4? See the [Payload 4 template](https://github.com/rpuls/payload-4-boilerplate).
 
 ## Preconfigured Features & Integrations
 
@@ -70,8 +99,8 @@ Use one-click deploy template:
 
 ### Local Setup
 
-1. Clone proejct: (recommeded) Laucnh on Railway and ejct [watch how](https://www.youtube.com/watch?v=LJFek8JP8TE). Alternatively clone this repo or fork it.
-2. Copy `.env.example` to `.env` (fill in your own values..)
+1. Get the code: (recommended) launch on Railway and eject the service to get your own repository ([watch how](https://www.youtube.com/watch?v=LJFek8JP8TE)). Alternatively, clone or fork this repo.
+2. Copy `.env.example` to `.env` and fill in your own values
 3. Start PostgreSQL: `docker compose up -d postgres`
 4. Install dependencies: `pnpm install` or `npm install`
 5. Run development mode: `pnpm dev` or `npm run dev`
@@ -81,7 +110,7 @@ or
 
 ### End-to-End Testing
 
-The Playwright suite boots a fresh PostgreSQL container, builds the app from scratch, creates the first admin user through the onboarding UI, seeds the demo content, submits a public comment, approves it in the admin UI, and verifies it appears on the public post page.
+The Playwright suite boots a fresh PostgreSQL container (port `54343`) in its own Docker Compose project (`payload3-e2e`), so your development database is never touched. It builds the app from scratch, creates the first admin user through the onboarding UI, seeds the demo content, submits a public comment, approves it in the admin UI, and verifies it appears on the public post page.
 
 Before the first run, make sure Docker Desktop is running. The suite starts a fresh PostgreSQL container automatically.
 For test determinism, the e2e harness uses bundled local seed images only during the test run. Normal seeding continues to use the hosted seed images.
@@ -110,12 +139,15 @@ If you prefer `npm`, you can run:
 ### Requirements
 
 - **Database**: PostgreSQL
-- **Node.js**: Compatible version as specified in `package.json`
+- **Node.js**: 20.18.1 or newer
+- **Docker**: for local PostgreSQL and the e2e suite
 
 ## Useful Resources
 
 - **Blog post about this template**: [Read here](https://funkyton.com/payload-cms/)
 - **Official Payload Documentation**: [Read here](https://payloadcms.com/docs)
+- **Payload 4 version of this template**: [rpuls/payload-4-boilerplate](https://github.com/rpuls/payload-4-boilerplate)
+- **Payload 3 to 4 migration guide**: [Read here](https://payloadcms.com/docs/beta/migration-guide/v4)
 
 <p align="center">
   <a href="https://funkyton.com/">
