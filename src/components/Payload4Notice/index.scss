@@ -1,0 +1,69 @@
+@import '../../../node_modules/@payloadcms/ui/dist/scss/styles.scss';
+
+.dashboard .payload-4-notice {
+  position: relative;
+  margin-bottom: base(1.5);
+  padding: base(1.25) base(1.5);
+  border: 1px solid var(--theme-success-200);
+  border-left: base(0.25) solid var(--theme-success-500);
+  border-radius: var(--style-radius-m);
+  background: var(--theme-success-50);
+
+  &__badge {
+    display: inline-block;
+    margin-bottom: base(0.5);
+    padding: base(0.1) base(0.5);
+    border-radius: var(--style-radius-s);
+    background: var(--theme-success-500);
+    color: var(--theme-bg);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0 0 base(0.5);
+  }
+
+  p {
+    max-width: 70ch;
+    margin: 0 0 base(0.75);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: base(0.5);
+    margin: base(1) 0;
+  }
+
+  // Full-contrast primary button, so the call to action stands out in both themes.
+  &__actions .btn--style-primary {
+    background: var(--theme-text);
+    color: var(--theme-bg);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--theme-text);
+      color: var(--theme-bg);
+      opacity: 0.85;
+    }
+  }
+
+  &__note {
+    color: var(--theme-elevation-650);
+  }
+
+  &__note a {
+    color: var(--theme-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+}

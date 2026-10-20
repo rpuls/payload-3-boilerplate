@@ -23,9 +23,15 @@ const BeforeDashboard: React.FC = () => {
           {' to see the results.'}
         </li>
         <li>
-          If you created this repo using Payload Cloud, head over to GitHub and clone it to your
-          local machine. It will be under the <i>GitHub Scope</i> that you selected when creating
-          this project.
+          {'If you deployed with the Railway template, '}
+          <a
+            href="https://www.youtube.com/watch?v=LJFek8JP8TE"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            eject the service
+          </a>
+          {' to get your own GitHub repository, then clone it to your local machine.'}
         </li>
         <li>
           {'Modify your '}

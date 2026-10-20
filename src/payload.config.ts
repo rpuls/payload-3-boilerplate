@@ -29,7 +29,8 @@ export default buildConfig({
       beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      // `Payload4Notice` points new users to the Payload 4 template. Remove it once you have read it.
+      beforeDashboard: ['@/components/Payload4Notice', '@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
