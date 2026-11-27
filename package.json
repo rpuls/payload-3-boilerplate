@@ -23,16 +23,16 @@
     "test:e2e:manual": "cross-env PLAYWRIGHT_SLOW_MO=750 E2E_MANUAL_REVIEW=true playwright test --headed --workers=1"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.91.0",
-    "@payloadcms/live-preview-react": "3.91.0",
-    "@payloadcms/next": "3.91.0",
-    "@payloadcms/plugin-form-builder": "3.91.0",
-    "@payloadcms/plugin-nested-docs": "3.91.0",
-    "@payloadcms/plugin-redirects": "3.91.0",
-    "@payloadcms/plugin-search": "3.91.0",
-    "@payloadcms/plugin-seo": "3.91.0",
-    "@payloadcms/richtext-lexical": "3.91.0",
-    "@payloadcms/ui": "3.91.0",
+    "@payloadcms/db-postgres": "3.94.2",
+    "@payloadcms/live-preview-react": "3.94.2",
+    "@payloadcms/next": "3.94.2",
+    "@payloadcms/plugin-form-builder": "3.94.2",
+    "@payloadcms/plugin-nested-docs": "3.94.2",
+    "@payloadcms/plugin-redirects": "3.94.2",
+    "@payloadcms/plugin-search": "3.94.2",
+    "@payloadcms/plugin-seo": "3.94.2",
+    "@payloadcms/richtext-lexical": "3.94.2",
+    "@payloadcms/ui": "3.94.2",
     "@radix-ui/react-checkbox": "^1.4.1",
     "@radix-ui/react-label": "^2.1.17",
     "@radix-ui/react-select": "^2.4.1",
@@ -40,40 +40,40 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cross-env": "^10.1.0",
-    "geist": "^1.8.1",
+    "geist": "^1.9.2",
     "graphql": "^16.14.0",
     "jsonwebtoken": "9.0.3",
-    "lucide-react": "^1.60.0",
-    "next": "16.4.2",
-    "payload": "3.91.0",
+    "lucide-react": "^1.82.0",
+    "next": "16.4.6",
+    "payload": "3.94.2",
     "payload-admin-bar": "^1.0.7",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-hook-form": "7.90.0",
+    "react-hook-form": "7.92.0",
     "sharp": "0.35.5",
-    "tailwind-merge": "^3.7.0",
+    "tailwind-merge": "^3.7.1",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "16.4.2",
-    "@playwright/test": "^1.64.1",
+    "@next/eslint-plugin-next": "16.4.6",
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/typography": "^0.5.20",
     "@types/escape-html": "^1.0.4",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "22.20.5",
-    "@types/react": "^19.3.0",
+    "@types/node": "22.20.7",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.7.0",
     "eslint": "^9.39.1",
-    "eslint-config-next": "16.4.2",
-    "postcss": "^8.5.31",
-    "prettier": "^3.9.10",
+    "eslint-config-next": "16.4.6",
+    "postcss": "^8.5.33",
+    "prettier": "^3.10.1",
     "tailwindcss": "^3.4.16",
     "typescript": "5.9.3"
   },
   "engines": {
-    "node": ">=20.18.1"
+    "node": "^22.23.5 || ^24.22.3 || >=26.13.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -84,5 +84,5 @@
       "unrs-resolver"
     ]
   },
-  "packageManager": "pnpm@10.26.0"
+  "packageManager": "pnpm@10.34.9"
 }

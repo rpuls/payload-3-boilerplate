@@ -66,13 +66,13 @@ This boilerplate is a pre-configured, ready-to-deploy solution for Payload CMS a
 
 ## Version Info
 
-- **Payload CMS**: `3.91.0` (all `@payloadcms/*` packages on the same version)
-- **Next.js**: `16.4.2`
+- **Payload CMS**: `3.94.2` (all `@payloadcms/*` packages on the same version)
+- **Next.js**: `16.4.6`
 - **React**: `19.3.1`
-- **Node.js**: `>=20.18.1`
-- **pnpm**: `10.26.0`
+- **Node.js**: `^22.23.5 || ^24.22.3 || >=26.13.1`
+- **pnpm**: `10.34.9`
 - **TypeScript**: `5.9.3`
-- **Playwright**: `1.64.1`
+- **Playwright**: `1.65.1`
 - **PostgreSQL**: 16 for local development and e2e (Docker), Railway's PostgreSQL template in production
 
 Looking for Payload 4? See the [Payload 4 template](https://github.com/rpuls/payload-4-boilerplate).
@@ -139,7 +139,7 @@ If you prefer `npm`, you can run:
 ### Requirements
 
 - **Database**: PostgreSQL
-- **Node.js**: 20.18.1 or newer
+- **Node.js**: 22.23.5+ on the 22 line, 24.22.3+ on the 24 line, or 26.13.1+ (Payload 3.94 minimum)
 - **Docker**: for local PostgreSQL and the e2e suite
 
 ## Useful Resources
